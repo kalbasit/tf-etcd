@@ -59,12 +59,12 @@ resource "aws_security_group_rule" "etcd-allow-ssh-from-bastion" {
   security_group_id        = "${aws_security_group.etcd.id}"
 }
 
-resource "aws_security_group_rule" "etcd-allow-etcd-peer-from-all" {
+resource "aws_security_group_rule" "etcd-allow-etcd-peer-from-self" {
   type              = "ingress"
-  cidr_blocks       = ["0.0.0.0/0"]
   from_port         = 2380
   to_port           = 2380
   protocol          = "tcp"
+  self              = true
   security_group_id = "${aws_security_group.etcd.id}"
 }
 
