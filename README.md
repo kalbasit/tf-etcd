@@ -23,14 +23,16 @@ module "etcd" {
 
 # Module input variables
 
+- `name` The name of the cluster
 - `env` The environment of the cluster
+- `vpc_id` The ID of the VPC where the cluster is running on
+- `bastion_sg_id` The security group of the bastion
 - `aws_key_name` The AWS key name for the master nodes
 - `count` The number of etcd nodes
 - `ami` The AMI for the etcd nodes
 - `flannel_cidr` The CIDR for the flannel network
 - `instance_type` The instance type for the etcd nodes
 - `subnet_ids` A list of subnet ids for the etcd nodes. It's recommanded to host the ETCD server on a private subnet.
-- `sgs_ids` A list of security group ids. Make sure that at least one sgs allows nodes to communicate with each other on :2379 and :2380
 - `discovery_url` etcd2 discovery url. Use `make discovery_url` to generate a new one
 - `disable_api_termination` Enable EC2 Termination protection
 
@@ -38,6 +40,7 @@ module "etcd" {
 
 - `private_ips` A list of etcd private IPs
 - `public_ips` A list of etcd public IPs
+- `sg_id` The security group ID of the etcd nodes
 
 # License
 

@@ -1,6 +1,21 @@
+variable "name" {
+  description = "The name of the cluster"
+  type        = "string"
+}
+
 variable "env" {
   description = "The environment of the cluster"
   default     = ""
+  type        = "string"
+}
+
+variable "vpc_id" {
+  description = "The ID of the VPC where the cluster is running on"
+  type        = "string"
+}
+
+variable "bastion_sg_id" {
+  description = "The security group of the bastion"
   type        = "string"
 }
 
@@ -34,11 +49,6 @@ variable "instance_type" {
 
 variable "subnet_ids" {
   description = "A list of subnet ids for the etcd nodes. It's recommanded to host the ETCD server on a private subnet."
-  type        = "list"
-}
-
-variable "sgs_ids" {
-  description = "A list of security group ids. Make sure that at least one sgs allows nodes to communicate with each other on :2379 and :2380"
   type        = "list"
 }
 
