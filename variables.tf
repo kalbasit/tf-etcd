@@ -26,7 +26,7 @@ variable "aws_key_name" {
 
 variable "count" {
   description = "The number of etcd nodes"
-  default     = 4
+  default     = 5
   type        = "string"
 }
 
