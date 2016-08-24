@@ -95,6 +95,8 @@ resource "aws_security_group_rule" "etcd-allow-all-from-self" {
   security_group_id = "${aws_security_group.etcd.id}"
 }
 
+// TODO(kalbasit): add a remote-exec hook that executes `etcdctl member list`
+// and blocks until the number is equal to count.
 resource "aws_instance" "etcd" {
   count                   = "${var.count}"
   ami                     = "${var.ami}"

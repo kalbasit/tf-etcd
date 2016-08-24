@@ -21,7 +21,7 @@ coreos:
     - name: format-etcd2-data.service
       content: |
         [Unit]
-        Description=Format (if necessary) and mount etcd2 data
+        Description=Format (if necessary) the etcd2 data
         Wants=dev-xvdh.device
         After=dev-xvdh.device
 
