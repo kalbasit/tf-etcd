@@ -18,8 +18,45 @@ coreos:
   units:
     - name: etcd.service
       mask: true
+    - name: format-etcd2-data.service
+      content: |
+        [Unit]
+        Description=Format (if necessary) and mount etcd2 data
+        Wants=dev-xvdh.device
+        After=dev-xvdh.device
+
+        [Service]
+        Type=oneshot
+        ExecStart=/bin/sh -c "blkid -o value -s TYPE /dev/xvdh | grep -q ext4 || mkfs.ext4 -L etcd-data -m 0 /dev/xvdh"
+        RemainAfterExit=yes
+    - name: var-lib-etcd2.mount
+      content: |
+        [Unit]
+        Requires=format-etcd2-data.service
+        After=format-etcd2-data.service
+        [Mount]
+        What=/dev/xvdh
+        Where=/var/lib/etcd2
+        Type=ext4
+    - name: fix-etcd2-data-permissions.service
+      content: |
+        [Unit]
+        Description="Fix the permissions for the etcd2 data dir"
+        Requires=var-lib-etcd2.mount
+        After=var-lib-etcd2.mount
+
+        [Service]
+        Type=oneshot
+        ExecStart=/usr/bin/chown -R etcd: /var/lib/etcd2
+        RemainAfterExit=yes
     - name: etcd2.service
-      command: "restart"
+      command: "start"
+      drop-ins:
+        - name: 10-require-data-mount.conf
+          content: |
+            [Unit]
+            Requires=fix-etcd2-data-permissions.service
+            After=fix-etcd2-data-permissions.service
     - name: flanneld.service
       command: "restart"
       drop-ins:

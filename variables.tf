@@ -47,6 +47,11 @@ variable "instance_type" {
   type        = "string"
 }
 
+variable "azs" {
+  description = "A list of Availability zones in the region"
+  type        = "list"
+}
+
 variable "subnet_ids" {
   description = "A list of subnet ids for the etcd nodes. It's recommanded to host the ETCD server on a private subnet."
   type        = "list"

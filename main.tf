@@ -105,6 +105,14 @@ resource "aws_instance" "etcd" {
   vpc_security_group_ids  = ["${aws_security_group.etcd.id}"]
   disable_api_termination = "${var.disable_api_termination}"
 
+  ebs_block_device {
+    device_name           = "/dev/sdh"
+    volume_type           = "io1"
+    volume_size           = "10"
+    iops                  = "100"
+    delete_on_termination = true
+  }
+
   tags {
     Name = "etcd-${count.index}"
     role = "etcd"
